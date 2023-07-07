@@ -1,5 +1,7 @@
 package org.devio.takephoto.model;
 
+import android.support.annotation.RequiresApi;
+
 import java.io.Serializable;
 
 /**
@@ -11,7 +13,7 @@ public class CropOptions implements Serializable {
     /**
      * 使用TakePhoto自带的裁切工具进行裁切
      */
-    private boolean withOwnCrop;
+    private boolean withOwnCrop = true;
     private int aspectX;
     private int aspectY;
     private int outputX;
@@ -56,8 +58,13 @@ public class CropOptions implements Serializable {
         return withOwnCrop;
     }
 
+    /**
+     * 修改为内部文件，不支持系统裁剪
+     */
+    @RequiresApi(9999)
+    @Deprecated
     public void setWithOwnCrop(boolean withOwnCrop) {
-        this.withOwnCrop = withOwnCrop;
+//        this.withOwnCrop = withOwnCrop;
     }
 
     public static class Builder {

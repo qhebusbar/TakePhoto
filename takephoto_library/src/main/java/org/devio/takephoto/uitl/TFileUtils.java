@@ -46,4 +46,12 @@ public class TFileUtils {
             e.printStackTrace();
         }
     }
+
+    public static File getSuggestCacheDir(Context context) {
+        File ef = context.getExternalCacheDir();
+        if (ef == null) {
+            return context.getCacheDir();
+        }
+        return ef;
+    }
 }

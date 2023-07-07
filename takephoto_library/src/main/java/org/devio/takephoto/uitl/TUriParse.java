@@ -5,7 +5,6 @@ import android.content.ContentResolver;
 import android.content.Context;
 import android.database.Cursor;
 import android.net.Uri;
-import android.os.Environment;
 import android.provider.MediaStore;
 import android.support.v4.content.FileProvider;
 import android.text.TextUtils;
@@ -55,7 +54,7 @@ public class TUriParse {
      */
     public static Uri getTempUri(Context context) {
         String timeStamp = new SimpleDateFormat("yyyyMMdd_HHmmss", Locale.getDefault()).format(new Date());
-        File file = new File(Environment.getExternalStorageDirectory(), "/images/" + timeStamp + ".jpg");
+        File file = new File(TFileUtils.getSuggestCacheDir(context), "/images/" + timeStamp + ".jpg");
         if (!file.getParentFile().exists()) {
             file.getParentFile().mkdirs();
         }

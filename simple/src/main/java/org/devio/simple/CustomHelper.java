@@ -1,7 +1,6 @@
 package org.devio.simple;
 
 import android.net.Uri;
-import android.os.Environment;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.RadioGroup;
@@ -11,6 +10,7 @@ import org.devio.takephoto.compress.CompressConfig;
 import org.devio.takephoto.model.CropOptions;
 import org.devio.takephoto.model.LubanOptions;
 import org.devio.takephoto.model.TakePhotoOptions;
+import org.devio.takephoto.uitl.TFileUtils;
 
 import java.io.File;
 
@@ -73,7 +73,7 @@ public class CustomHelper {
     }
 
     public void onClick(View view, TakePhoto takePhoto) {
-        File file = new File(Environment.getExternalStorageDirectory(), "/temp/" + System.currentTimeMillis() + ".jpg");
+        File file = new File(TFileUtils.getSuggestCacheDir(view.getContext()), "/temp/" + System.currentTimeMillis() + ".jpg");
         if (!file.getParentFile().exists()) {
             file.getParentFile().mkdirs();
         }
