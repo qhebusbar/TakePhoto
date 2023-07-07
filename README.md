@@ -1,5 +1,10 @@
 ## [TakePhoto](https://github.com/crazycodeboy/TakePhoto) 简介
 
+### 修复说明：
+* 这是一个特别旧的库，不会考虑优化和升级
+* 这里只是简单的对高api进行了适配，适配方式仅简单的将图片的保存位置改到了“cache”目录，所以你app项目里所有保存的外部存储的地方都要全部改为cache目录
+
+
 [![PRs Welcome](https://img.shields.io/badge/PRs-Welcome-brightgreen.svg)](https://github.com/crazycodeboy/TakePhoto/pulls)
 [![Download](https://api.bintray.com/packages/crazycodeboy/maven/TakePhoto/images/download.svg) ](https://bintray.com/crazycodeboy/maven/TakePhoto/_latestVersion)
 [![GitHub release](https://img.shields.io/github/release/crazycodeboy/TakePhoto.svg?maxAge=2592000?style=flat-square)](https://github.com/crazycodeboy/TakePhoto/releases)
