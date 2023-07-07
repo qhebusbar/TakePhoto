@@ -6,12 +6,14 @@
     <uses-permission android:name="android.permission.CAMERA" />
 
     <application android:allowBackup="true">
-        <activity android:name="com.soundcloud.android.crop.CropImageActivity" />
+        <activity
+            android:name="com.soundcloud.android.crop.CropImageActivity"
+            android:exported="false" />
         <provider
-            android:name="android.support.v4.content.FileProvider"
-            android:authorities="${applicationId}.fileprovider"
-            android:grantUriPermissions="true"
-            android:exported="false">
+            android:name=".uitl.TFileProvider"
+            android:authorities="${applicationId}.TakePhoto"
+            android:exported="false"
+            android:grantUriPermissions="true">
             <meta-data
                 android:name="android.support.FILE_PROVIDER_PATHS"
                 android:resource="@xml/file_paths" />
