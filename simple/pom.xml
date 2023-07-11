@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project
+    xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd"
+    xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+    <!-- do_not_remove: published-with-gradle-metadata -->
+    <modelVersion>4.0.0</modelVersion>
+    <groupId>com.github.weimingjue</groupId>
+    <artifactId>TakePhoto</artifactId>
+    <version>4.1.1</version>
+    <packaging>aar</packaging>
+    <name>weimingjue/TakePhoto</name>
+    <description>
+        修复了适配相关问题，一款用于在Android设备上获取照片（拍照或从相册、文件中选择）、裁剪图片、压缩图片的开源工具库
+    </description>
+    <url>http://www.devio.org/tags/#TakePhoto</url>
+    <inceptionYear>2023</inceptionYear>
+    <licenses>
+        <license>
+            <name>Apache License 2.0</name>
+            <url>https://api.github.com/licenses/apache-2.0</url>
+            <distribution>repo</distribution>
+        </license>
+    </licenses>
+    <developers>
+        <developer>
+            <id>weimingjue</id>
+            <name>王能</name>
+            <email>873456775@qq.com</email>
+        </developer>
+    </developers>
+    <scm>
+        <connection>scm:git://github.com/weimingjue/TakePhoto.git</connection>
+        <developerConnection>scm:git://github.com/weimingjue/TakePhoto.git</developerConnection>
+        <url>git://github.com/weimingjue/TakePhoto.git</url>
+    </scm>
+    <dependencies>
+        <dependency>
+            <groupId>com.soundcloud.android</groupId>
+            <artifactId>android-crop</artifactId>
+            <version>1.0.1</version>
+            <type>aar</type>
+            <scope>compile</scope>
+        </dependency>
+        <dependency>
+            <groupId>com.darsh.multipleimageselect</groupId>
+            <artifactId>multipleimageselect</artifactId>
+            <version>1.0.5</version>
+            <scope>compile</scope>
+        </dependency>
+        <dependency>
+            <groupId>me.shaohui.advancedluban</groupId>
+            <artifactId>library</artifactId>
+            <version>1.3.5</version>
+            <scope>compile</scope>
+        </dependency>
+    </dependencies>
+</project> 
