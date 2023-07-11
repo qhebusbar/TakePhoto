@@ -3,6 +3,19 @@
 ### 修复说明：
 * 这是一个特别旧的库，不会考虑优化和升级
 * 这里只是简单的对高api进行了适配，适配方式仅简单的将图片的保存位置改到了“cache”目录，所以你app项目里所有保存的外部存储的地方都要全部改为cache目录
+### 版本说明：
+* 使用的是Jitpack.io
+  ```
+  maven { url "https://jitpack.io" }
+  ```
+* 引入包
+  ```
+  implementation 'com.github.weimingjue:TakePhoto:4.1.1'
+  //由于Jitpack未知bug，引用的三方库会失败，并且编译不会提示，下面几个必须加上
+  implementation 'com.soundcloud.android:android-crop:1.0.1@aar'
+  implementation 'com.darsh.multipleimageselect:multipleimageselect:1.0.5'
+  implementation 'me.shaohui.advancedluban:library:1.3.5'
+  ```
 
 
 [![PRs Welcome](https://img.shields.io/badge/PRs-Welcome-brightgreen.svg)](https://github.com/crazycodeboy/TakePhoto/pulls)
