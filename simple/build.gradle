@@ -5,8 +5,8 @@ android {
 
     defaultConfig {
         applicationId "org.devio.simple"
-        minSdkVersion 14
-        targetSdkVersion 34
+        minSdkVersion 21
+        targetSdkVersion 30
         versionCode 1
         versionName "1.0"
     }
@@ -21,5 +21,16 @@ android {
 dependencies {
     implementation fileTree(include: ['*.jar'], dir: 'libs')
     implementation project(':takephoto_library')
+    implementation 'androidx.appcompat:appcompat:1.0.0'
+    // TakePhoto
     implementation 'com.github.bumptech.glide:glide:4.6.1'
+    implementation 'io.reactivex.rxjava2:rxjava:2.0.5'
+    implementation 'io.reactivex.rxjava2:rxandroid:2.0.1'
+    annotationProcessor 'com.github.bumptech.glide:compiler:4.6.1'
+
+    implementation 'com.github.qhebusbar:android-crop:2.0.+'
+    implementation 'com.github.qhebusbar:MultipleImageSelect:2.0.3'
+    implementation 'com.github.qhebusbar:AdvancedLuban:2.0.+'
+    implementation 'androidx.exifinterface:exifinterface:1.3.3'
+
 }

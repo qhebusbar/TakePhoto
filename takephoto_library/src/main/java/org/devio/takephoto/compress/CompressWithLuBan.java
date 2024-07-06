@@ -57,16 +57,18 @@ public class CompressWithLuBan implements CompressImage {
     }
 
     private void compressOne() {
-        Luban.compress(context, files.get(0))
+        Luban.compressFile(context, files.get(0))
             .putGear(Luban.CUSTOM_GEAR)
             .setMaxHeight(options.getMaxHeight())
             .setMaxWidth(options.getMaxWidth())
             .setMaxSize(options.getMaxSize() / 1000)
-            .launch(new OnCompressListener() {
+            .launch(new OnCompressListener<File>() {
                 @Override
                 public void onStart() {
 
                 }
+
+
 
                 @Override
                 public void onSuccess(File file) {
@@ -84,12 +86,12 @@ public class CompressWithLuBan implements CompressImage {
     }
 
     private void compressMulti() {
-        Luban.compress(context, files)
+        Luban.compressFiles(context, files)
             .putGear(Luban.CUSTOM_GEAR)
             .setMaxSize(options.getMaxSize() / 1000)                // limit the final image size（unit：Kb）
             .setMaxHeight(options.getMaxHeight())             // limit image height
             .setMaxWidth(options.getMaxWidth())
-            .launch(new OnMultiCompressListener() {
+            .launch(new OnMultiCompressListener<File>() {
                 @Override
                 public void onStart() {
 
@@ -100,6 +102,8 @@ public class CompressWithLuBan implements CompressImage {
                     handleCompressCallBack(fileList);
                 }
 
+
+//
                 @Override
                 public void onError(Throwable e) {
                     listener.onCompressFailed(images, e.getMessage() + " is compress failures");
