@@ -19,6 +19,7 @@ android {
 
 dependencies {
     implementation fileTree(include: ['*.jar'], dir: 'libs')
+    compileOnly 'androidx.appcompat:appcompat:1.0.0'
     compileOnly 'com.github.qhebusbar:android-crop:2.0.+'
     compileOnly 'com.github.qhebusbar:MultipleImageSelect:2.0.+'
     compileOnly 'com.github.qhebusbar:AdvancedLuban:2.0.+'
