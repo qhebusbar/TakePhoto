@@ -3,6 +3,7 @@ package org.devio.takephoto.uitl;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.net.Uri;
+import android.os.Build;
 import android.provider.MediaStore;
 import android.util.Log;
 
@@ -81,6 +82,9 @@ public class IntentUtils {
      * @return
      */
     public static Intent getPickIntentWithGallery() {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+            return new Intent(MediaStore.ACTION_PICK_IMAGES).setType("image/*");
+        }
         Intent intent = new Intent();
         intent.setAction(Intent.ACTION_PICK);//Pick an item from the data
         intent.setType("image/*");//从所有图片中进行选择
@@ -93,6 +97,12 @@ public class IntentUtils {
      * @return
      */
     public static Intent getPickIntentWithDocuments() {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+            Intent intent = new Intent(Intent.ACTION_OPEN_DOCUMENT);
+            intent.addCategory(Intent.CATEGORY_OPENABLE);
+            intent.setType("image/*");
+            return intent;
+        }
         Intent intent = new Intent(Intent.ACTION_GET_CONTENT);
         intent.setType("image/*");
         return intent;

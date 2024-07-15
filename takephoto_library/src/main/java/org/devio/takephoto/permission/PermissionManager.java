@@ -4,6 +4,7 @@ import android.Manifest;
 import android.app.Activity;
 import android.content.pm.PackageManager;
 
+import android.os.Build;
 import android.text.TextUtils;
 import android.widget.Toast;
 
@@ -24,7 +25,11 @@ import java.util.ArrayList;
  */
 public class PermissionManager {
     public enum TPermission {
-        STORAGE(Manifest.permission.WRITE_EXTERNAL_STORAGE), CAMERA(Manifest.permission.CAMERA);
+        STORAGE(Manifest.permission.WRITE_EXTERNAL_STORAGE),
+        CAMERA(Manifest.permission.CAMERA),
+        READ_MEDIA_IMAGES(Manifest.permission.READ_MEDIA_IMAGES),
+        READ_MEDIA_AUDIO(Manifest.permission.READ_MEDIA_AUDIO),
+        READ_MEDIA_VIDEO(Manifest.permission.READ_MEDIA_VIDEO);
         String stringValue;
 
         TPermission(String stringValue) {
@@ -52,8 +57,8 @@ public class PermissionManager {
 
 
     private final static String[] methodNames =
-        {"onPickFromCapture", "onPickFromCaptureWithCrop", "onPickMultiple", "onPickMultipleWithCrop", "onPickFromDocuments",
-            "onPickFromDocumentsWithCrop", "onPickFromGallery", "onPickFromGalleryWithCrop", "onCrop"};
+            {"onPickFromCapture", "onPickFromCaptureWithCrop", "onPickMultiple", "onPickMultipleWithCrop", "onPickFromDocuments",
+                    "onPickFromDocumentsWithCrop", "onPickFromGallery", "onPickFromGalleryWithCrop", "onCrop"};
 
     /**
      * 检查当前应用是否被授予相应权限
@@ -75,20 +80,43 @@ public class PermissionManager {
             return TPermissionType.NOT_NEED;
         }
 
-        boolean cameraGranted = true, storageGranted =
-            ContextCompat.checkSelfPermission(contextWrap.getActivity(), TPermission.STORAGE.stringValue())
-                == PackageManager.PERMISSION_GRANTED ? true : false;
 
+        boolean cameraGranted = true;
+        boolean storageGranted = true;
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+            boolean storageGranted1 = ContextCompat.checkSelfPermission(contextWrap.getActivity(), TPermission.READ_MEDIA_IMAGES.stringValue())
+                    == PackageManager.PERMISSION_GRANTED;
+            boolean storageGranted2 = ContextCompat.checkSelfPermission(contextWrap.getActivity(), TPermission.READ_MEDIA_AUDIO.stringValue())
+                    == PackageManager.PERMISSION_GRANTED;
+            boolean storageGranted3 = ContextCompat.checkSelfPermission(contextWrap.getActivity(), TPermission.READ_MEDIA_VIDEO.stringValue())
+                    == PackageManager.PERMISSION_GRANTED;
+            storageGranted = storageGranted1 && storageGranted2 && storageGranted3;
+
+        } else {
+            storageGranted = ContextCompat.checkSelfPermission(contextWrap.getActivity(), TPermission.STORAGE.stringValue())
+                    == PackageManager.PERMISSION_GRANTED;
+
+        }
         if (TextUtils.equals(methodName, "onPickFromCapture") || TextUtils.equals(methodName, "onPickFromCaptureWithCrop")) {
             cameraGranted = ContextCompat.checkSelfPermission(contextWrap.getActivity(), TPermission.CAMERA.stringValue())
-                == PackageManager.PERMISSION_GRANTED ? true : false;
+                    == PackageManager.PERMISSION_GRANTED;
         }
+
 
         boolean granted = storageGranted && cameraGranted;
         if (!granted) {
             ArrayList<String> permissions = new ArrayList<>();
             if (!storageGranted) {
-                permissions.add(TPermission.STORAGE.stringValue());
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+                    permissions.add(TPermission.READ_MEDIA_IMAGES.stringValue());
+                    permissions.add(TPermission.READ_MEDIA_AUDIO.stringValue());
+                    permissions.add(TPermission.READ_MEDIA_VIDEO.stringValue());
+
+                } else {
+                    permissions.add(TPermission.STORAGE.stringValue());
+                }
+
             }
             if (!cameraGranted) {
                 permissions.add(TPermission.CAMERA.stringValue());
@@ -108,14 +136,29 @@ public class PermissionManager {
 
     public static TPermissionType onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults) {
         if (requestCode == TConstant.PERMISSION_REQUEST_TAKE_PHOTO) {
-            boolean cameraGranted = true, storageGranted = true;
+            boolean cameraGranted = true,
+                    storageGranted = true;
             for (int i = 0, j = permissions.length; i < j; i++) {
                 if (grantResults[i] != PackageManager.PERMISSION_GRANTED) {
-                    if (TextUtils.equals(TPermission.STORAGE.stringValue(), permissions[i])) {
-                        storageGranted = false;
-                    } else if (TextUtils.equals(TPermission.CAMERA.stringValue(), permissions[i])) {
-                        cameraGranted = false;
+                    boolean storageGranted1 = true, storageGranted2 = true, storageGranted3 = true;
+                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+                        if (TextUtils.equals(TPermission.READ_MEDIA_IMAGES.stringValue(), permissions[i])) {
+                            storageGranted1 = false;
+
+                        } else if (TextUtils.equals(TPermission.READ_MEDIA_AUDIO.stringValue(), permissions[i])) {
+                            storageGranted2 = false;
+                        } else if (TextUtils.equals(TPermission.READ_MEDIA_VIDEO.stringValue(), permissions[i])) {
+                            storageGranted3 = false;
+                        }
+                        storageGranted = storageGranted1 && storageGranted2 && storageGranted3;
+                    } else {
+                        if (TextUtils.equals(TPermission.STORAGE.stringValue(), permissions[i])) {
+                            storageGranted = false;
+                        } else if (TextUtils.equals(TPermission.CAMERA.stringValue(), permissions[i])) {
+                            cameraGranted = false;
+                        }
                     }
+
                 }
             }
             if (cameraGranted && storageGranted) {
@@ -124,18 +167,16 @@ public class PermissionManager {
             if (!cameraGranted && storageGranted) {
                 return TPermissionType.ONLY_CAMERA_DENIED;
             }
-            if (!storageGranted && cameraGranted) {
+            if (cameraGranted) {
                 return TPermissionType.ONLY_STORAGE_DENIED;
             }
-            if (!storageGranted && !cameraGranted) {
-                return TPermissionType.DENIED;
-            }
+            return TPermissionType.DENIED;
         }
         return TPermissionType.WAIT;
     }
 
     public static void handlePermissionsResult(Activity activity, TPermissionType type, InvokeParam invokeParam,
-        TakePhoto.TakeResultListener listener) {
+                                               TakePhoto.TakeResultListener listener) {
         String tip = null;
         switch (type) {
             case DENIED:
