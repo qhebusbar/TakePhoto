@@ -13,12 +13,24 @@ public class TResult {
 
     public static TResult of(TImage image) {
         ArrayList<TImage> images = new ArrayList<>(1);
+        if(!image.isCompressed()){
+            image.setCompressPath(image.getOriginalPath());
+        }
         images.add(image);
         return new TResult(images);
     }
 
     public static TResult of(ArrayList<TImage> images) {
-        return new TResult(images);
+        ArrayList<TImage> images1 = new ArrayList<>();
+        if(images!=null && images.size()>0){
+            for (int i = 0;i<images.size();i++){
+                TImage image = images.get(i);
+                if(!image.isCompressed()){
+                    image.setCompressPath(image.getOriginalPath());
+                }
+            }
+        }
+        return new TResult(images1);
     }
 
     private TResult(ArrayList<TImage> images) {

@@ -94,12 +94,12 @@ public class CompressImageImpl implements CompressImage {
             return;
         }
 
-        for (TImage image : images) {
-            if (!image.isCompressed()) {
-                listener.onCompressFailed(images, image.getCompressPath() + " is compress failures");
-                return;
-            }
-        }
+//        for (TImage image : images) {
+//            if (!image.isCompressed()) {
+//                listener.onCompressFailed(images, image.getCompressPath() + " is compress failures");
+//                return;
+//            }
+//        }
         listener.onCompressSuccess(images);
     }
 }
