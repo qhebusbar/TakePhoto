@@ -484,12 +484,12 @@ public class TakePhotoImpl implements TakePhoto {
             listener.takeFail(result, contextWrap.getActivity().getResources().getString(org.devio.takephoto.R.string.msg_crop_failed));
         } else if (compressConfig != null) {
             boolean hasFailed = false;
-            for (TImage image : result.getImages()) {
-                if (image == null || !image.isCompressed()) {
-                    hasFailed = true;
-                    break;
-                }
-            }
+//            for (TImage image : result.getImages()) {
+//                if (image == null || !image.isCompressed()) {
+//                    hasFailed = true;
+//                    break;
+//                }
+//            }
             if (hasFailed) {
                 listener.takeFail(result, contextWrap.getActivity().getString(org.devio.takephoto.R.string.msg_compress_failed));
             } else {
