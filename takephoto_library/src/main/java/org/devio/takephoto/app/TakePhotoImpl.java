@@ -188,6 +188,7 @@ public class TakePhotoImpl implements TakePhoto {
                         takeResult(TResult.of(TImage.of(outPutUri, fromType)), e.getDetailMessage());
                         e.printStackTrace();
                     }
+//                    takeResult(TResult.of(TImage.of(outPutUri, fromType)));
                 } else {
                     listener.takeCancel();
                 }

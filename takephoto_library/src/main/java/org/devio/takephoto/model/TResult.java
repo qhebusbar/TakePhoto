@@ -28,9 +28,11 @@ public class TResult {
                 if(!image.isCompressed()){
                     image.setCompressPath(image.getOriginalPath());
                 }
+                images1.add(image);
             }
         }
-        return new TResult(images1);
+        return  new TResult(images1);
+//        return  new TResult(images);
     }
 
     private TResult(ArrayList<TImage> images) {
