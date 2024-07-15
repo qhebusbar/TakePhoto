@@ -98,6 +98,7 @@ public class PermissionManager {
                     == PackageManager.PERMISSION_GRANTED;
 
         }
+
         if (TextUtils.equals(methodName, "onPickFromCapture") || TextUtils.equals(methodName, "onPickFromCaptureWithCrop")) {
             cameraGranted = ContextCompat.checkSelfPermission(contextWrap.getActivity(), TPermission.CAMERA.stringValue())
                     == PackageManager.PERMISSION_GRANTED;
@@ -167,10 +168,12 @@ public class PermissionManager {
             if (!cameraGranted && storageGranted) {
                 return TPermissionType.ONLY_CAMERA_DENIED;
             }
-            if (cameraGranted) {
+            if (!storageGranted && cameraGranted) {
                 return TPermissionType.ONLY_STORAGE_DENIED;
             }
-            return TPermissionType.DENIED;
+            if (!storageGranted && !cameraGranted) {
+                return TPermissionType.DENIED;
+            }
         }
         return TPermissionType.WAIT;
     }
